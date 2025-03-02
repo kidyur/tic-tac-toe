@@ -1,114 +1,73 @@
-const text = document.getElementById('win-side-text')
-const message = document.getElementById('outer-message')
-const button = document.getElementById('reset-game-button')
-
-const cells = Array.from(document.getElementsByClassName('cells'))
-
 const gridEl = document.createElement("div");
 gridEl.className = "grid";
 document.body.appendChild(gridEl);
 
-let DRAW_INDEX = true
-let PLAYING_SIDE = false
+const pl1 = "red";
+const pl2 = "blue";
+const empty = "white";
+const grid = [];
+let side = 0
 
 function main() {
     for (let i = 0; i < 3; i++) {
         const lineEl = document.createElement("div");
         lineEl.className = "line";
         gridEl.appendChild(lineEl);
+        grid.push([]);
         for (let j = 0; j < 3; j++) {
             const cellEl = document.createElement("button");
             cellEl.className = "cell";
-            lineEl.appendChild(cellEl)
+            lineEl.appendChild(cellEl);
+            grid[i].push(cellEl);
         }
     }
 }
 
-main()
+function reset() {
+    for (line of grid) {
+        for (cell of line) {
+            cell.style.backgroundColor = empty;
+            cell.style.pointerEvents = "all";
+        }
+    }
+    update();
+    side = 0;
+}
 
-function resetCells()
-{
-    for (let i = 0; i < 9; i++)
-    {
-        cells[i].style.backgroundImage = ''
-        cells[i].style.pointerEvents = 'all'
+function update() {
+    side = Math.abs(side-1);
+
+    for (let row = 0; row < 3; row++) {
+        for (let col = 0; col < 3; col++) {
+            if (grid[row][col].style.backgroundColor != empty) continue;
+
+            grid[row][col].onclick = () => {
+                let color = (side ? pl2 : pl1);
+                grid[row][col].style.backgroundColor = color;
+                grid[row][col].style.pointerEvents = "none";
+                const cnt = [0, 0, 0, 0];
+                for (let idx = 0; idx < 3; idx++) {
+                    cnt[0] += grid[row][idx].style.backgroundColor == color;
+                    cnt[1] += grid[idx][col].style.backgroundColor == color;
+                    cnt[2] += grid[idx][idx].style.backgroundColor == color;
+                    cnt[3] += grid[idx][2-idx].style.backgroundColor == color;
+                }
+                if (Math.max(...cnt) == 3) callWin(side);
+                else update() 
+            }
+        }
     }
 }
 
-resetCells()
-
-function callMessage(currentTag)
-{
-    if (currentTag == colorFirst)
-    {
-        text.innerHTML = 'Крестики победили!'
+function callWin(player) {
+    if (!player) {
+        alert("player one wins");
     }
-    else if (currentTag == colorSecond)
-    {
-        text.innerHTML = 'Нолики победили!'
+    else {
+        alert("player two wins");
     }
-    else if (currentTag == 'draw')
-    {
-        text.innerHTML = 'Ничья!'
-    }
-
-    message.style.opacity = '1'
-    message.style.pointerEvents = 'all'
+    reset();
 }
 
-button.addEventListener('click', ()=>
-{
-    resetCells()
-    message.style.opacity = '0'
-    message.style.pointerEvents = 'none'
-})
-
-for (let k = 0; k < 9; k++) 
-{
-    cells[k].addEventListener('click', ()=> 
-    {
-        DRAW_INDEX = true
-
-        if (PLAYING_SIDE == false) 
-        {
-            cells[k].style.backgroundImage = colorFirst       
-            cells[k].style.pointerEvents = 'none' 
-        }
-        else 
-        {
-            cells[k].style.backgroundImage = colorSecond
-            cells[k].style.pointerEvents = 'none' 
-        }
-
-        PLAYING_SIDE = !PLAYING_SIDE
-
-        let winPositions = [0, 1, 2, 3, 4, 5, 6, 7, 8,
-                            0, 3, 6, 1, 4, 7, 2, 5, 8,
-                            0, 4, 8, 2, 4, 6]
-
-        for (let i = 0; i < 22; i+=3)
-        {   
-            if (cells[winPositions[i]].style.backgroundImage == '' ||
-                cells[winPositions[i+1]].style.backgroundImage == '' ||
-                cells[winPositions[i+2]].style.backgroundImage == '')
-            {
-                DRAW_INDEX = false
-            } 
-            else if (cells[winPositions[i]].style.backgroundImage == cells[winPositions[i+1]].style.backgroundImage &&
-                     cells[winPositions[i]].style.backgroundImage == cells[winPositions[i+2]].style.backgroundImage && 
-                     cells[winPositions[i]].style.backgroundImage != '')
-            {
-                callMessage(cells[winPositions[i]].style.backgroundImage)
-                DRAW_INDEX = false
-                break
-            }       
-        }
-
-        if (DRAW_INDEX == true)
-        {
-            callMessage("draw")
-        }
-    }) 
-}
-
-createBoard()
+main();
+reset();
