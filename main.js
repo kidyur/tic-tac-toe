@@ -6,7 +6,7 @@ const pl1 = "red";
 const pl2 = "blue";
 const empty = "white";
 const grid = [];
-let side = 0
+let side = 0;
 
 function main() {
     for (let i = 0; i < 3; i++) {
@@ -57,7 +57,7 @@ function update() {
             }
         }
     }
-}
+}  
 
 function callWin(player) {
     if (!player) {
