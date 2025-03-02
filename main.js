@@ -11,16 +11,20 @@ document.body.appendChild(gridEl);
 let DRAW_INDEX = true
 let PLAYING_SIDE = false
 
-for (let i = 0; i < 3; i++) {
-    const lineEl = document.createElement("div");
-    lineEl.className = "line";
-    gridEl.appendChild(lineEl);
-    for (let j = 0; j < 3; j++) {
-        const cellEl = document.createElement("button");
-        cellEl.className = "cell";
-        lineEl.appendChild(cellEl)
+function main() {
+    for (let i = 0; i < 3; i++) {
+        const lineEl = document.createElement("div");
+        lineEl.className = "line";
+        gridEl.appendChild(lineEl);
+        for (let j = 0; j < 3; j++) {
+            const cellEl = document.createElement("button");
+            cellEl.className = "cell";
+            lineEl.appendChild(cellEl)
+        }
     }
 }
+
+main()
 
 function resetCells()
 {
