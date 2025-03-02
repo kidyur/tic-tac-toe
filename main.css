@@ -3,7 +3,7 @@ body
 {
     height: 100vh;
     width: 100%;
-    background: linear-gradient(45deg, rgb(186, 106, 255),rgb(92, 92, 255));
+    background-color: #CCCCFF;
     overflow: hidden;
     font-family: sans-serif;
     color: white;
@@ -15,10 +15,6 @@ body
     justify-content: center;
     overflow: hidden;
 }
-
-
-
-
 
 #outer-message
 {
@@ -49,7 +45,7 @@ a
 
 
 
-#playground-square
+#grid
 {
     width: 40%;
     filter: brightness(110%);
@@ -58,13 +54,13 @@ a
     box-shadow: 0 0 20px 0 black;
 }
 
-.lines-of-cells
+.line
 {
     height: 33.3%;
     width:100%;
 }
 
-.cells
+.cell
 {
     transition: 0.3s;
     width: 33%;
@@ -76,20 +72,4 @@ a
     background-repeat: no-repeat;
     background-position: center;
     box-shadow: 0 0 5px 0 black; 
-}
-
-.cells:hover
-{
-    box-shadow: 0 0 12px 0 black;   
-}
-
-
-
-
-
-@media screen and (max-width: 600px) {
-    #playground-square
-    {
-        width: 65%;
-    }
 }

@@ -4,11 +4,23 @@ const button = document.getElementById('reset-game-button')
 
 const cells = Array.from(document.getElementsByClassName('cells'))
 
+const gridEl = document.createElement("div");
+gridEl.className = "grid";
+document.body.appendChild(gridEl);
+
 let DRAW_INDEX = true
 let PLAYING_SIDE = false
 
-let colorFirst = 'url("Cross.png")'
-let colorSecond = 'url("Zero.png")'
+for (let i = 0; i < 3; i++) {
+    const lineEl = document.createElement("div");
+    lineEl.className = "line";
+    gridEl.appendChild(lineEl);
+    for (let j = 0; j < 3; j++) {
+        const cellEl = document.createElement("button");
+        cellEl.className = "cell";
+        lineEl.appendChild(cellEl)
+    }
+}
 
 function resetCells()
 {
@@ -94,3 +106,5 @@ for (let k = 0; k < 9; k++)
         }
     }) 
 }
+
+createBoard()
